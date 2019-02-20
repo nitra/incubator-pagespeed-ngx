@@ -2,6 +2,8 @@ language: c++
 env:
   global:
     - MAKEFLAGS=-j3
+services:
+  - docker    
 # By default travis loads submodules serially, but we can load them in parallel
 # if we install an updated git and use --jobs.  Some timing numbers:
 #   serial: 257s
@@ -15,6 +17,10 @@ env:
 git:
   submodules: false
 before_install:
+  - docker build docker/alpine-3.8/nginx-mainline/
+  - docker build docker/alpine-3.8/nginx-stable/  
+  - docker build docker/alpine-edge/nginx-mainline/ 
+  - docker build docker/alpine-edge/nginx-stable/ 
   - sudo add-apt-repository --yes ppa:git-core/ppa
   - sudo apt-get update
   - sudo apt-get install git
